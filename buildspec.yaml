@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+
+  build:
+    commands:
+      - pip install -r ./lib/python/requirements.txt -t ./lib/python/
+      - sam build
+  post_build:
+    commands:
+      - sam package --output-template-file outputSamTemplate.yaml --s3-bucket memorial-api
+
+artifacts:
+  type: zip
+  files:
+    - outputSamTemplate.yaml

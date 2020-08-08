@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Memorial API
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'OPTIONS,POST,GET,DELETE'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'*'"
+    GatewayResponses:
+      DEFAULT_5xx:
+        ResponseParameters:
+          Headers:
+            Access-Control-Allow-Origin: "'*'"
+      DEFAULT_4xx:
+        ResponseParameters:
+          Headers:
+            Access-Control-Allow-Origin: "'*'"
+
+Parameters:
+    Env:
+        Description: 'Required. Sets the environment.'
+        Type: 'String'
+        Default: 'prod'
+    Region:
+        Description: 'Required. Sets the region.'
+        Type: 'String'
+        Default: 'us-east-2'
+    AppConfigPath:
+        Description: 'Required. Sets the configuration path for the parameter store.'
+        Type: 'String'
+        Default: 'parameterStore'
+
+Resources:
+  MemorialLibrary:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      ContentUri: ./lib/
+      CompatibleRuntimes: # optional
+        - python3.7
+
+  addMemory:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: function.handler
+      Runtime: python3.7
+      CodeUri: ./lambdas/memory/add
+      Description: 'Lambda function to add a memory'
+      MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::672841565100:role/LambdaRole'
+      Events:
+        addMemory:
+          Type: Api
+          Properties:
+            Path: /memory/add
+            Method: post
+      Environment:
+        Variables:
+          ENV: !Ref Env
+          REGION: !Ref Region
+          APP_CONFIG_PATH: !Ref AppConfigPath
+      Layers:
+        - !Ref MemorialLibrary
+      # VpcConfig:
+      #   SecurityGroupIds:
+      #     - sg-6ea5c908
+      #   SubnetIds:
+      #     - subnet-6c3caa20
+      #     - subnet-a8d626c3
+      #     - subnet-37c5eb4d
