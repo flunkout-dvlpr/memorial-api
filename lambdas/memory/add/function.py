@@ -1,9 +1,15 @@
 from memorial import * 
 
-def handler(event, context):
-  app = init_lambda()
 
-  cursor = connect_postgresql(app.get_config())
+
+def handler(event, context):
+  conn = psycopg2.connect(host = 'memorial.cogxlpoqzgkf.us-east-2.rds.amazonaws.com', 
+                          port = 5432, 
+                          dbname = 'memorial', 
+                          user = 'postgres', 
+                          password = 'science2224')
+
+  cursor = conn.cursor()
 
   payload = json.loads(event['body'])
 
