@@ -63,10 +63,10 @@ Resources:
           APP_CONFIG_PATH: !Ref AppConfigPath
       Layers:
         - !Ref MemorialLibrary
-      # VpcConfig:
-      #   SecurityGroupIds:
-      #     - sg-6ea5c908
-      #   SubnetIds:
-      #     - subnet-6c3caa20
-      #     - subnet-a8d626c3
-      #     - subnet-37c5eb4d
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-fb2c0281
+        SubnetIds:
+          - subnet-cb25eaa0
+          - subnet-d169059d
+          - subnet-efa0a595
