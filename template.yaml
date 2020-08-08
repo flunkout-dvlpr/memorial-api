@@ -70,3 +70,34 @@ Resources:
           - subnet-cb25eaa0
           - subnet-d169059d
           - subnet-efa0a595
+
+  getMemory:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: function.handler
+      Runtime: python3.7
+      CodeUri: ./lambdas/memory/get
+      Description: 'Lambda function to get a memory'
+      MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::672841565100:role/LambdaRole'
+      Events:
+        addMemory:
+          Type: Api
+          Properties:
+            Path: /memory/get
+            Method: get
+      Environment:
+        Variables:
+          ENV: !Ref Env
+          REGION: !Ref Region
+          APP_CONFIG_PATH: !Ref AppConfigPath
+      Layers:
+        - !Ref MemorialLibrary
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-fb2c0281
+        SubnetIds:
+          - subnet-cb25eaa0
+          - subnet-d169059d
+          - subnet-efa0a595
