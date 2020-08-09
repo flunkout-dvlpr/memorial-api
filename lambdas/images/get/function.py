@@ -15,4 +15,4 @@ def handler(event, context):
                         'imageLink': buketLink })
   print(bucketLinks)
   
-  return http_response(bucketLinks
+  return http_response(bucketLinks)
