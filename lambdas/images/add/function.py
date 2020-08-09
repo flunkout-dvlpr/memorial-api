@@ -1,9 +1,5 @@
 import boto3
-import botocore
-import botocore.exceptions
 import json
-import urllib.request
-import base64
 from memorial import * 
 
 def handler(event, context):
@@ -12,7 +8,7 @@ def handler(event, context):
   print(rawData)
 
   s3_bucket = "memorial-images"
-  s3_filename = str(rawData['fileName']) + ".png"
+  s3_filename = str(rawData['fileName']) + ".jepg"
 
   s3_resource = boto3.resource('s3')
   s3 = boto3.client('s3', aws_access_key_id="AKIAZZKD3QOWJHEVVCZU", aws_secret_access_key="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")
