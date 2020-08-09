@@ -4,14 +4,15 @@ from memorial import *
 
 def handler(event, context):
 
-  s3 = boto3.resource('s3')
-
-  imagesBucket = s3.Bucket('memorial-images')
-
   bucketLinks = []
-  for file in imagesBucket.objects.all():
-      buketLink = 'https://memorial-images.s3.us-east-2.amazonaws.com/' + file.key
 
-      bucketLinks.append({ 'id': file.key,
-                           'imageLink': buketLink })
+  s3 = boto3.client('s3', aws_access_key_id="AKIAZZKD3QOWJHEVVCZU", aws_secret_access_key="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")
+
+  for file in s3.list_objects(Bucket='memorial-images')['Contents']:
+
+    buketLink = 'https://memorial-images.s3.us-east-2.amazonaws.com/' + file['Key']
+
+    bucketLinks.append({ 'id': file['Key'],
+                         'imageLink': buketLink })
+
   return http_response(bucketLinks)
