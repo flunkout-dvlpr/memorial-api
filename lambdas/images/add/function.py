@@ -3,9 +3,8 @@ import json
 from memorial import * 
 
 def handler(event, context):
-  #print(event)
+  print(json.dumps(event))
   rawData = json.loads(event['body'])
-  print(rawData)
 
   s3_bucket = "memorial-images"
   s3_filename = str(rawData['fileName']) + ".jepg"
