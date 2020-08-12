@@ -5,7 +5,7 @@ from memorial import *
 def handler(event, context):
   bucketLinks = []
 
-  s3 = boto3.client('s3', aws_access_key_id="AKIAZZKD3QOWJHEVVCZU", aws_secret_access_key="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")
+  s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRETE_KEY)
 
   for file in s3.list_objects(Bucket='memorial-images')['Contents']:
 
